@@ -23,6 +23,21 @@ interface ChatSettings {
   fontSize: "small" | "medium" | "large"
 }
 
+
+  const sendMessageToN8N = async (message: string) => {
+    try {
+      await fetch("https://n8n-webhooks-s1.staybuy.site/webhook/ac8d4800-b593-4392-a07a-78caacc7955e/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: message }),
+      });
+    } catch (error) {
+      console.error("Erro ao enviar mensagem para o n8n:", error);
+    }
+  };
+
 export default function ChatPremiumGold() {
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState("")
@@ -62,7 +77,7 @@ export default function ChatPremiumGold() {
   }
 
   // Webhook URL for message processing
-  const webhookUrl = "https://n8n-webhooks-s1.staybuy.site/webhook/ac8d4800-b593-4392-a07a-78caacc7955e/chat"
+  const webhookUrl = "https://n8n-webhooks-s1.staybuy.site/webhook/755e6ee0-036e-471d-bf25-4d6e2b584a1a"
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
