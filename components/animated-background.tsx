@@ -25,8 +25,7 @@ const AnimatedBackground = () => {
   }, [])
 
   useEffect(() => {
-    if (reducedMotion) return // Skip animation if reduced motion is preferred
-
+    // Always render the background, even with reduced motion
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -53,12 +52,12 @@ const AnimatedBackground = () => {
       opacity: number
 
       constructor() {
+        this.opacity = Math.random() * 0.5 + 0.1
         this.x = Math.random() * canvas.width
         this.y = Math.random() * canvas.height
         this.size = Math.random() * 3 + 1 // Smaller particles on mobile
-        this.speedX = Math.random() * 0.8 - 0.4 // Slower movement
-        this.speedY = Math.random() * 0.8 - 0.4
-        this.opacity = Math.random() * 0.5 + 0.1
+        this.speedX = reducedMotion ? 0 : Math.random() * 0.5 - 0.25 // Slower or no movement with reduced motion
+        this.speedY = reducedMotion ? 0 : Math.random() * 0.5 - 0.25
         this.color = this.getRandomColor()
       }
 
@@ -76,13 +75,15 @@ const AnimatedBackground = () => {
       }
 
       update() {
-        this.x += this.speedX
-        this.y += this.speedY
+        if (!reducedMotion) {
+          this.x += this.speedX
+          this.y += this.speedY
 
-        if (this.x > canvas.width) this.x = 0
-        else if (this.x < 0) this.x = canvas.width
-        if (this.y > canvas.height) this.y = 0
-        else if (this.y < 0) this.y = canvas.height
+          if (this.x > canvas.width) this.x = 0
+          else if (this.x < 0) this.x = canvas.width
+          if (this.y > canvas.height) this.y = 0
+          else if (this.y < 0) this.y = canvas.height
+        }
       }
 
       draw() {
@@ -97,8 +98,9 @@ const AnimatedBackground = () => {
     // Create particles - fewer on mobile
     const particles: Particle[] = []
     const getParticleCount = () => {
-      const base = isMobile ? 20 : 70
-      return Math.min(base, Math.floor((canvas.width * canvas.height) / 20000))
+      // Always have some particles, even on mobile
+      const base = isMobile ? 40 : 70
+      return Math.min(base, Math.floor((canvas.width * canvas.height) / 15000))
     }
 
     const particleCount = getParticleCount()
@@ -126,7 +128,7 @@ const AnimatedBackground = () => {
       })
 
       // Draw connections - fewer connections on mobile
-      const maxDistance = isMobile ? 80 : 150
+      const maxDistance = isMobile ? 100 : 150
       drawConnections(maxDistance)
 
       requestAnimationFrame(animate)
@@ -136,9 +138,8 @@ const AnimatedBackground = () => {
     const drawConnections = (maxDistance: number) => {
       if (!ctx) return
 
-      // On mobile, only check every other particle to improve performance
       // On mobile, check fewer particles to improve performance
-      const step = isMobile ? 3 : 1
+      const step = isMobile ? 2 : 1
 
       for (let a = 0; a < particles.length; a += step) {
         for (let b = a; b < particles.length; b += step) {
@@ -170,11 +171,11 @@ const AnimatedBackground = () => {
 
   return (
     <>
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full -z-10" />
+      <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10" />
 
       {/* Floating gradient orbs - fewer and smaller on mobile */}
       {!reducedMotion && (
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-5 pointer-events-none">
+        <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-5 pointer-events-none">
           <motion.div
             className="absolute w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] rounded-full bg-purple-600/20 blur-[60px] sm:blur-[80px]"
             animate={{

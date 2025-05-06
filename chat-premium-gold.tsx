@@ -249,7 +249,7 @@ export default function ChatPremiumGold() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-b from-slate-800/90 to-slate-900/90 backdrop-blur-md w-full max-w-[100%] sm:max-w-[90%] md:max-w-[650px] h-[100vh] sm:h-[85vh] max-h-[100vh] sm:max-h-[700px] flex flex-col rounded-none sm:rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.25)] border-0 sm:border sm:border-indigo-500/30 z-10"
+        className="bg-gradient-to-b from-slate-800/90 to-slate-900/90 backdrop-blur-md w-full max-w-[100%] sm:max-w-[90%] md:max-w-[650px] h-[90vh] sm:h-[85vh] max-h-[100vh] sm:max-h-[700px] flex flex-col rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.25)] border border-indigo-500/30 z-10"
       >
         {/* Chat Header */}
         <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 flex justify-between items-center border-b border-indigo-500/30">
