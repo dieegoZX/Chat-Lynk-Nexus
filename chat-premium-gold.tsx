@@ -3,8 +3,10 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { Send, Bot, MessageCircleQuestion, Settings, Sparkles } from "lucide-react"
+import { Send, MessageCircleQuestion, Settings, Sparkles } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
+import AnimatedBackground from "./components/animated-background"
 
 interface Message {
   text: string
@@ -167,12 +169,15 @@ export default function ChatPremiumGold() {
   }
 
   return (
-    <div className="font-sans bg-gradient-to-br from-slate-900 to-indigo-950 text-white flex justify-center items-center min-h-screen p-4 box-border">
+    <div className="font-sans relative text-white flex justify-center items-center min-h-screen p-4 box-border overflow-hidden">
+      {/* Animated Background */}
+      <AnimatedBackground />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-b from-slate-800 to-slate-900 w-full max-w-[450px] h-[85vh] max-h-[700px] flex flex-col rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.15)] border border-indigo-500/20"
+        className="bg-gradient-to-b from-slate-800/90 to-slate-900/90 backdrop-blur-md w-full max-w-[650px] h-[85vh] max-h-[700px] flex flex-col rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.25)] border border-indigo-500/30 z-10"
       >
         {/* Chat Header */}
         <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 flex justify-between items-center border-b border-indigo-500/30">
@@ -182,11 +187,17 @@ export default function ChatPremiumGold() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.4 }}
           >
-            <div className="bg-white/10 backdrop-blur-sm text-white rounded-full w-10 h-10 flex items-center justify-center mr-3 flex-shrink-0 border border-white/20">
-              <Bot className="w-5 h-5" />
+            <div className="bg-white/10 backdrop-blur-sm text-white rounded-full w-12 h-12 flex items-center justify-center mr-3 flex-shrink-0 border border-white/20 overflow-hidden">
+              <Image
+                src="/profile-sara.jpg"
+                alt="Sara Lima"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="flex items-center gap-2">
-              Assistente Virtual
+              Sara Lima
               <Sparkles className="w-4 h-4 text-yellow-300" />
             </span>
           </motion.div>
@@ -226,7 +237,7 @@ export default function ChatPremiumGold() {
                 className={`max-w-[85%] break-words p-4 rounded-2xl leading-relaxed relative ${
                   message.sender === "user"
                     ? "self-end bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-br-sm ml-auto shadow-lg shadow-indigo-500/20"
-                    : "self-start bg-gradient-to-br from-slate-700 to-slate-800 text-white rounded-bl-sm mr-auto shadow-lg shadow-slate-700/20 border border-slate-600/30"
+                    : "self-start bg-gradient-to-br from-slate-700/90 to-slate-800/90 backdrop-blur-sm text-white rounded-bl-sm mr-auto shadow-lg shadow-slate-700/20 border border-slate-600/30"
                 }`}
               >
                 {message.text === "welcome" ? (
@@ -237,7 +248,7 @@ export default function ChatPremiumGold() {
                       transition={{ delay: 0.2, duration: 0.3 }}
                     >
                       <strong className="font-semibold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 text-[1.05em]">
-                        👋 Olá! Sou a Sara assistente da Lynk Nexus.
+                        👋 Olá! Sou Sara Lima, assistente da Lynk Nexus.
                       </strong>
                     </motion.p>
                     <motion.p
@@ -352,7 +363,7 @@ export default function ChatPremiumGold() {
         {/* Chat Input */}
         <motion.form
           onSubmit={handleSubmit}
-          className="flex p-4 border-t border-slate-700/50 bg-slate-800/50 backdrop-blur-sm gap-3"
+          className="flex p-4 border-t border-slate-700/50 bg-slate-800/70 backdrop-blur-sm gap-3"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
