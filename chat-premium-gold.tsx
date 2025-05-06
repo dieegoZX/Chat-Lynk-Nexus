@@ -62,7 +62,7 @@ export default function ChatPremiumGold() {
   }
 
   // Webhook URL for message processing
-  const webhookUrl = "https://n8n-webhooks-s1.staybuy.site/webhook/755e6ee0-036e-471d-bf25-4d6e2b584a1a"
+  const webhookUrl = "https://n8n-webhooks-s1.staybuy.site/webhook/ac8d4800-b593-4392-a07a-78caacc7955e/chat"
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
