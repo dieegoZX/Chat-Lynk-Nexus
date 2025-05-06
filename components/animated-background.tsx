@@ -1,12 +1,32 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
+import { useMediaQuery } from "../hooks/use-media-query"
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const isMobile = useMediaQuery("(max-width: 768px)")
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
+    // Check for reduced motion preference
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setReducedMotion(mediaQuery.matches)
+
+    const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches)
+    }
+
+    mediaQuery.addEventListener("change", handleReducedMotionChange)
+    return () => {
+      mediaQuery.removeEventListener("change", handleReducedMotionChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (reducedMotion) return // Skip animation if reduced motion is preferred
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -35,9 +55,9 @@ const AnimatedBackground = () => {
       constructor() {
         this.x = Math.random() * canvas.width
         this.y = Math.random() * canvas.height
-        this.size = Math.random() * 5 + 1
-        this.speedX = Math.random() * 1 - 0.5
-        this.speedY = Math.random() * 1 - 0.5
+        this.size = Math.random() * 3 + 1 // Smaller particles on mobile
+        this.speedX = Math.random() * 0.8 - 0.4 // Slower movement
+        this.speedY = Math.random() * 0.8 - 0.4
         this.opacity = Math.random() * 0.5 + 0.1
         this.color = this.getRandomColor()
       }
@@ -74,9 +94,14 @@ const AnimatedBackground = () => {
       }
     }
 
-    // Create particles
+    // Create particles - fewer on mobile
     const particles: Particle[] = []
-    const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 10000))
+    const getParticleCount = () => {
+      const base = isMobile ? 30 : 70
+      return Math.min(base, Math.floor((canvas.width * canvas.height) / 15000))
+    }
+
+    const particleCount = getParticleCount()
 
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
@@ -100,19 +125,22 @@ const AnimatedBackground = () => {
         particle.draw()
       })
 
-      // Draw connections
-      drawConnections()
+      // Draw connections - fewer connections on mobile
+      const maxDistance = isMobile ? 100 : 150
+      drawConnections(maxDistance)
 
       requestAnimationFrame(animate)
     }
 
     // Draw connections between particles
-    const drawConnections = () => {
+    const drawConnections = (maxDistance: number) => {
       if (!ctx) return
-      const maxDistance = 150
 
-      for (let a = 0; a < particles.length; a++) {
-        for (let b = a; b < particles.length; b++) {
+      // On mobile, only check every other particle to improve performance
+      const step = isMobile ? 2 : 1
+
+      for (let a = 0; a < particles.length; a += step) {
+        for (let b = a; b < particles.length; b += step) {
           const dx = particles[a].x - particles[b].x
           const dy = particles[a].y - particles[b].y
           const distance = Math.sqrt(dx * dx + dy * dy)
@@ -137,56 +165,58 @@ const AnimatedBackground = () => {
     return () => {
       window.removeEventListener("resize", setCanvasDimensions)
     }
-  }, [])
+  }, [isMobile, reducedMotion])
 
   return (
     <>
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full -z-10" />
 
-      {/* Floating gradient orbs */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-5 pointer-events-none">
-        <motion.div
-          className="absolute w-[300px] h-[300px] rounded-full bg-purple-600/20 blur-[80px]"
-          animate={{
-            x: ["-10%", "30%", "10%"],
-            y: ["10%", "30%", "50%"],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "easeInOut",
-          }}
-        />
+      {/* Floating gradient orbs - fewer and smaller on mobile */}
+      {!reducedMotion && (
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-5 pointer-events-none">
+          <motion.div
+            className="absolute w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] rounded-full bg-purple-600/20 blur-[60px] sm:blur-[80px]"
+            animate={{
+              x: ["-10%", "30%", "10%"],
+              y: ["10%", "30%", "50%"],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
 
-        <motion.div
-          className="absolute w-[250px] h-[250px] rounded-full bg-indigo-600/20 blur-[70px]"
-          animate={{
-            x: ["60%", "40%", "70%"],
-            y: ["30%", "60%", "40%"],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "easeInOut",
-          }}
-        />
+          <motion.div
+            className="absolute w-[150px] sm:w-[250px] h-[150px] sm:h-[250px] rounded-full bg-indigo-600/20 blur-[50px] sm:blur-[70px]"
+            animate={{
+              x: ["60%", "40%", "70%"],
+              y: ["30%", "60%", "40%"],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
 
-        <motion.div
-          className="absolute w-[200px] h-[200px] rounded-full bg-pink-600/15 blur-[60px]"
-          animate={{
-            x: ["80%", "50%", "30%"],
-            y: ["70%", "30%", "60%"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "easeInOut",
-          }}
-        />
-      </div>
+          <motion.div
+            className="absolute w-[120px] sm:w-[200px] h-[120px] sm:h-[200px] rounded-full bg-pink-600/15 blur-[40px] sm:blur-[60px]"
+            animate={{
+              x: ["80%", "50%", "30%"],
+              y: ["70%", "30%", "60%"],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+        </div>
+      )}
     </>
   )
 }
