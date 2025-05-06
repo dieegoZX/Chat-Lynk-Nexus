@@ -97,8 +97,8 @@ const AnimatedBackground = () => {
     // Create particles - fewer on mobile
     const particles: Particle[] = []
     const getParticleCount = () => {
-      const base = isMobile ? 30 : 70
-      return Math.min(base, Math.floor((canvas.width * canvas.height) / 15000))
+      const base = isMobile ? 20 : 70
+      return Math.min(base, Math.floor((canvas.width * canvas.height) / 20000))
     }
 
     const particleCount = getParticleCount()
@@ -126,7 +126,7 @@ const AnimatedBackground = () => {
       })
 
       // Draw connections - fewer connections on mobile
-      const maxDistance = isMobile ? 100 : 150
+      const maxDistance = isMobile ? 80 : 150
       drawConnections(maxDistance)
 
       requestAnimationFrame(animate)
@@ -137,7 +137,8 @@ const AnimatedBackground = () => {
       if (!ctx) return
 
       // On mobile, only check every other particle to improve performance
-      const step = isMobile ? 2 : 1
+      // On mobile, check fewer particles to improve performance
+      const step = isMobile ? 3 : 1
 
       for (let a = 0; a < particles.length; a += step) {
         for (let b = a; b < particles.length; b += step) {

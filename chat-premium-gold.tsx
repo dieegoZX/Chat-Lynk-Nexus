@@ -249,10 +249,10 @@ export default function ChatPremiumGold() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-b from-slate-800/90 to-slate-900/90 backdrop-blur-md w-full max-w-[95%] sm:max-w-[90%] md:max-w-[650px] h-[90vh] sm:h-[85vh] max-h-[700px] flex flex-col rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.25)] border border-indigo-500/30 z-10"
+        className="bg-gradient-to-b from-slate-800/90 to-slate-900/90 backdrop-blur-md w-full max-w-[100%] sm:max-w-[90%] md:max-w-[650px] h-[100vh] sm:h-[85vh] max-h-[100vh] sm:max-h-[700px] flex flex-col rounded-none sm:rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(79,70,229,0.25)] border-0 sm:border sm:border-indigo-500/30 z-10"
       >
         {/* Chat Header */}
-        <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 flex justify-between items-center border-b border-indigo-500/30">
+        <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 flex justify-between items-center border-b border-indigo-500/30">
           <motion.div
             className="flex items-center font-semibold text-base sm:text-lg"
             initial={{ x: -20, opacity: 0 }}
@@ -280,18 +280,18 @@ export default function ChatPremiumGold() {
             transition={{ delay: 0.3, duration: 0.4 }}
           >
             <button
-              className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full p-1.5 sm:p-2 text-white text-xl cursor-pointer transition-all duration-300"
+              className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full p-2.5 sm:p-2 text-white text-xl cursor-pointer transition-all duration-300"
               title="Ajuda"
               onClick={() => setIsHelpModalOpen(true)}
             >
-              <MessageCircleQuestion className="w-4 h-4 sm:w-5 sm:h-5" />
+              <MessageCircleQuestion className="w-5 h-5 sm:w-5 sm:h-5" />
             </button>
             <button
-              className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full p-1.5 sm:p-2 text-white text-xl cursor-pointer transition-all duration-300"
+              className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full p-2.5 sm:p-2 text-white text-xl cursor-pointer transition-all duration-300"
               title="Configurações"
               onClick={() => setIsSettingsModalOpen(true)}
             >
-              <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Settings className="w-5 h-5 sm:w-5 sm:h-5" />
             </button>
           </motion.div>
         </header>
@@ -299,7 +299,7 @@ export default function ChatPremiumGold() {
         {/* Chat Messages */}
         <div
           ref={chatMessagesRef}
-          className="flex-1 p-3 sm:p-5 overflow-y-auto flex flex-col gap-3 bg-transparent custom-scrollbar"
+          className="flex-1 p-4 overflow-y-auto flex flex-col gap-4 bg-transparent custom-scrollbar"
         >
           <AnimatePresence>
             {messages.map((message, index) => (
@@ -308,7 +308,7 @@ export default function ChatPremiumGold() {
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.4 }}
-                className={`max-w-[90%] sm:max-w-[85%] break-words p-3 sm:p-4 rounded-2xl leading-relaxed relative ${
+                className={`max-w-[90%] break-words p-4 rounded-2xl leading-relaxed relative ${
                   message.sender === "user"
                     ? "self-end bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-br-sm ml-auto shadow-lg shadow-indigo-500/20"
                     : "self-start bg-gradient-to-br from-slate-700/90 to-slate-800/90 backdrop-blur-sm text-white rounded-bl-sm mr-auto shadow-lg shadow-slate-700/20 border border-slate-600/30"
@@ -344,7 +344,7 @@ export default function ChatPremiumGold() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleQuickReply("Quais são seus serviços?")}
-                          className="bg-white/10 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm text-white cursor-pointer border border-purple-500/30 transition-all hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:border-transparent"
+                          className="bg-white/10 py-2.5 px-4 rounded-full text-sm text-white cursor-pointer border border-purple-500/30 transition-all hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:border-transparent"
                         >
                           Serviços
                         </motion.button>
@@ -352,7 +352,7 @@ export default function ChatPremiumGold() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleQuickReply("Quero saber sobre o Trafego Pago")}
-                          className="bg-white/10 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm text-white cursor-pointer border border-purple-500/30 transition-all hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:border-transparent"
+                          className="bg-white/10 py-2.5 px-4 rounded-full text-sm text-white cursor-pointer border border-purple-500/30 transition-all hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:border-transparent"
                         >
                           Trafego Pago
                         </motion.button>
@@ -360,7 +360,7 @@ export default function ChatPremiumGold() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleQuickReply("Quero agendar uma Reunião")}
-                          className="bg-white/10 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-xs sm:text-sm text-white cursor-pointer border border-purple-500/30 transition-all hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:border-transparent"
+                          className="bg-white/10 py-2.5 px-4 rounded-full text-sm text-white cursor-pointer border border-purple-500/30 transition-all hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:border-transparent"
                         >
                           Agendar Reunião
                         </motion.button>
@@ -437,7 +437,7 @@ export default function ChatPremiumGold() {
         {/* Chat Input */}
         <motion.form
           onSubmit={handleSubmit}
-          className="flex p-3 sm:p-4 border-t border-slate-700/50 bg-slate-800/70 backdrop-blur-sm gap-2 sm:gap-3"
+          className="flex p-4 border-t border-slate-700/50 bg-slate-800/70 backdrop-blur-sm gap-3"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
@@ -447,17 +447,17 @@ export default function ChatPremiumGold() {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="flex-1 border border-slate-600/50 rounded-full py-2 sm:py-3 px-3 sm:px-5 outline-none bg-slate-700/50 text-white text-sm sm:text-[0.95rem] transition-all focus:border-indigo-500 focus:shadow-[0_0_15px_rgba(99,102,241,0.4)] placeholder-slate-400"
+            className="flex-1 border border-slate-600/50 rounded-full py-3 px-4 outline-none bg-slate-700/50 text-white text-base transition-all focus:border-indigo-500 focus:shadow-[0_0_15px_rgba(99,102,241,0.4)] placeholder-slate-400"
             placeholder="Digite sua mensagem..."
           />
           <motion.button
             type="submit"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 border-none text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 text-xl cursor-pointer flex items-center justify-center transition-all hover:shadow-lg hover:shadow-indigo-500/30 flex-shrink-0"
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 border-none text-white rounded-full w-14 h-14 sm:w-12 sm:h-12 text-xl cursor-pointer flex items-center justify-center transition-all hover:shadow-lg hover:shadow-indigo-500/30 flex-shrink-0"
             title="Enviar"
           >
-            <Send className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Send className="w-6 h-6 sm:w-5 sm:h-5" />
           </motion.button>
         </motion.form>
       </motion.div>
